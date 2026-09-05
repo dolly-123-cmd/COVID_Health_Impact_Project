@@ -1,0 +1,3269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Community Health Dashboard</title>
+
+    <!-- Chart.js - only once -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <style>
+
+/* =====================================================
+   EARLY WARNING ALERTS
+===================================================== */
+
+.early-warning-section {
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 18px;
+    margin-bottom: 30px;
+    border: 1px solid #e1e8ee;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+}
+
+.warning-header {
+    margin-bottom: 22px;
+}
+
+.warning-header h2 {
+    color: #0d172b;
+    font-size: 22px;
+    margin-bottom: 6px;
+}
+
+.warning-header p {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.warning-list {
+    display: grid;
+    gap: 12px;
+}
+
+.warning-alert {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 17px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.warning-indicator {
+    width: 12px;
+    height: 12px;
+    min-width: 12px;
+    border-radius: 50%;
+}
+
+.warning-high {
+    background: #fef2f2;
+    border-left: 5px solid #dc2626;
+}
+
+.warning-high .warning-indicator {
+    background: #dc2626;
+}
+
+.warning-medium {
+    background: #fffbeb;
+    border-left: 5px solid #f59e0b;
+}
+
+.warning-medium .warning-indicator {
+    background: #f59e0b;
+}
+
+.warning-low {
+    background: #f0fdf4;
+    border-left: 5px solid #16a34a;
+}
+
+.warning-low .warning-indicator {
+    background: #16a34a;
+}
+
+.warning-content {
+    flex: 1;
+}
+
+.warning-community {
+    color: #0d172b;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.warning-message {
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.warning-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.warning-tag {
+    background: #ffffff;
+    border: 1px solid #dbe4ea;
+    color: #475569;
+    border-radius: 20px;
+    padding: 4px 9px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.warning-priority {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 20px;
+}
+
+.priority-high {
+    color: #b91c1c;
+    background: #fee2e2;
+}
+
+.priority-medium {
+    color: #b45309;
+    background: #fef3c7;
+}
+
+.priority-low {
+    color: #15803d;
+    background: #dcfce7;
+}
+
+.no-warning {
+    padding: 20px;
+    text-align: center;
+    color: #64748b;
+    background: #f8fafc;
+    border-radius: 10px;
+}
+
+@media (max-width: 700px) {
+
+    .warning-alert {
+        align-items: flex-start;
+    }
+
+    .warning-priority {
+        align-self: flex-start;
+    }
+}
+
+/* =====================================================
+   COMMUNITY RISK RANKING
+===================================================== */
+
+.risk-ranking-section {
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 18px;
+    margin-bottom: 30px;
+    border: 1px solid #e1e8ee;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+}
+
+.ranking-header {
+    margin-bottom: 20px;
+}
+
+.ranking-header h2 {
+    color: #0d172b;
+    font-size: 22px;
+    margin-bottom: 6px;
+}
+
+.ranking-header p {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.ranking-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.ranking-table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
+}
+
+.ranking-table th {
+    background: #0d172b;
+    color: white;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 12px;
+}
+
+.ranking-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+    color: #334155;
+}
+
+.ranking-table tbody tr {
+    transition: 0.2s ease;
+}
+
+.ranking-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.rank-number {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #e6fffa;
+    color: #0f766e;
+    font-weight: 800;
+}
+
+.community-name {
+    font-weight: 700;
+    color: #0d172b;
+}
+
+.score-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.score-bar {
+    width: 120px;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.score-fill {
+    height: 100%;
+    border-radius: 20px;
+    background: #14b8a6;
+}
+
+.score-value {
+    font-weight: 700;
+    color: #0d172b;
+}
+
+.ranking-high {
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: 20px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.ranking-medium {
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: 20px;
+    background: #fffbeb;
+    color: #b45309;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.ranking-low {
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: 20px;
+    background: #f0fdf4;
+    color: #15803d;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+@media (max-width: 700px) {
+
+    .risk-ranking-section {
+        padding: 20px;
+    }
+
+    .score-bar {
+        width: 80px;
+    }
+}
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #eef4f7;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
+
+        header {
+            background: #0d172b;
+            color: white;
+            padding: 18px 45px;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.12);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        nav ul li a:hover {
+            color: #20c4b3;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .container {
+            width: 92%;
+            max-width: 1400px;
+            margin: 35px auto 60px;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 34px;
+            color: #0d172b;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        /* =====================================================
+           STATISTICS
+        ===================================================== */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid #e1e8ee;
+            border-top: 4px solid #14b8a6;
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+            transition: 0.25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.10);
+        }
+
+        .stat-card h3 {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            color: #0d172b;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        /* =====================================================
+           ANALYTICS SECTION
+        ===================================================== */
+
+        .analytics-section {
+            background: white;
+            padding: 26px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid #e1e8ee;
+            box-shadow: 0 8px 28px rgba(15, 23, 42, 0.07);
+        }
+
+        .analytics-header {
+            margin-bottom: 22px;
+        }
+
+        .analytics-header h2 {
+            color: #0d172b;
+            font-size: 25px;
+            margin-bottom: 6px;
+        }
+
+        .analytics-header p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           CHART GRID
+           EXACTLY 2 CHARTS PER ROW
+        ===================================================== */
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        /* =====================================================
+           CHART CARD
+        ===================================================== */
+
+        .analytics-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 17px;
+            min-width: 0;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.045);
+            transition: 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analytics-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        .analytics-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #14b8a6;
+        }
+
+        /* =====================================================
+           CHART HEADER
+        ===================================================== */
+
+        .chart-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .chart-heading h3 {
+            color: #0d172b;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .chart-heading p {
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        .chart-label {
+            background: #f0fdfa;
+            color: #0f766e;
+            padding: 5px 8px;
+            border-radius: 7px;
+            font-size: 9px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* =====================================================
+           SMALLER CHARTS
+        ===================================================== */
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 255px;
+        }
+
+        .total-chart-container {
+            height: 300px;
+        }
+
+        .mental-chart-container {
+            height: 280px;
+        }
+
+        .risk-chart-container {
+            height: 255px;
+        }
+
+        /* =====================================================
+           RISK CENTER
+        ===================================================== */
+
+        .risk-wrapper {
+            position: relative;
+            width: 100%;
+            height: 255px;
+        }
+
+        .risk-center {
+            position: absolute;
+            left: 50%;
+            top: 48%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .risk-total {
+            color: #0d172b;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .risk-label {
+            color: #64748b;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        /* =====================================================
+           RISK SUMMARY
+        ===================================================== */
+
+        .risk-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 7px;
+            margin-top: 7px;
+        }
+
+        .risk-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            padding: 8px 5px;
+            text-align: center;
+        }
+
+        .risk-item strong {
+            display: block;
+            color: #0d172b;
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .risk-item span {
+            color: #64748b;
+            font-size: 10px;
+        }
+
+        .risk-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-right: 3px;
+        }
+
+        .dot-high {
+            background: #ef4444;
+        }
+
+        .dot-medium {
+            background: #f59e0b;
+        }
+
+        .dot-low {
+            background: #22c55e;
+        }
+
+        /* =====================================================
+           NORMAL SECTION
+        ===================================================== */
+
+        .section {
+            background: white;
+            padding: 28px;
+            border-radius: 17px;
+            margin-bottom: 30px;
+            border: 1px solid #e1e8ee;
+            box-shadow: 0 7px 25px rgba(15, 23, 42, 0.06);
+        }
+
+        .section h2 {
+            color: #0d172b;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 720px;
+        }
+
+        th {
+            background: #0d172b;
+            color: white;
+            padding: 14px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* =====================================================
+           RISK BADGES
+        ===================================================== */
+
+        .risk-high {
+            display: inline-block;
+            color: #b91c1c;
+            background: #fef2f2;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .risk-medium {
+            display: inline-block;
+            color: #b45309;
+            background: #fffbeb;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .risk-low {
+            display: inline-block;
+            color: #15803d;
+            background: #f0fdf4;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           SELECT
+        ===================================================== */
+
+        select {
+            width: 100%;
+            max-width: 450px;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 15px;
+            margin-bottom: 20px;
+            background: white;
+            color: #172033;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #14b8a6;
+            box-shadow: 0 0 0 3px rgba(20,184,166,0.10);
+        }
+
+        /* =====================================================
+           DETAIL GRID
+        ===================================================== */
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .detail-card {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 11px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .detail-card span {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .detail-card strong {
+            color: #0d172b;
+            font-size: 20px;
+        }
+
+        /* =====================================================
+           AI
+        ===================================================== */
+
+        .ai-analysis-box {
+            margin-top: 22px;
+            padding: 23px;
+            background: linear-gradient(135deg, #f8fafc, #f0fdfa);
+            border: 1px solid #dbe4ea;
+            border-left: 5px solid #14b8a6;
+            border-radius: 14px;
+        }
+
+        .ai-title {
+            color: #0d172b;
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 13px;
+        }
+
+        .ai-item {
+            background: white;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .ai-item span {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .ai-item strong {
+            color: #0f766e;
+            font-size: 19px;
+        }
+
+        .ai-recommendation {
+            margin-top: 18px;
+            padding: 17px;
+            background: #ecfdf5;
+            border-radius: 10px;
+            color: #14532d;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           WARNING
+        ===================================================== */
+
+        .warning-box {
+            margin-top: 20px;
+            padding: 18px;
+            background: #fff7ed;
+            border-left: 5px solid #f97316;
+            border-radius: 10px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .recommendation-box {
+            margin-top: 18px;
+            padding: 18px;
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            border-radius: 10px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           DOWNLOAD
+        ===================================================== */
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background: #14b8a6;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            transition: 0.2s ease;
+        }
+
+        .download-btn:hover {
+            background: #0f9f91;
+            transform: translateY(-2px);
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .analytics-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .detail-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ai-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 15px 20px;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul {
+                justify-content: center;
+                gap: 14px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-grid,
+            .ai-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics-section,
+            .section {
+                padding: 20px;
+            }
+
+            .chart-container,
+            .total-chart-container,
+            .mental-chart-container,
+            .risk-wrapper {
+                height: 290px;
+            }
+
+            .analytics-header h2 {
+                font-size: 23px;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<header>
+
+    <nav>
+
+        <div class="logo">
+            Community Health Analysis
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="/index">Home</a>
+            </li>
+
+            <li>
+                <a href="/dashboard">Dashboard</a>
+            </li>
+
+            <li>
+                <a href="/prediction">Risk Prediction</a>
+            </li>
+
+            <li>
+                <a href="/about">About</a>
+            </li>
+
+            <li>
+                <a href="/contact">Contact</a>
+            </li>
+
+            <li>
+                <a href="/logout">Sign Out</a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<div class="container">
+
+
+    <!-- PAGE TITLE -->
+
+    <div class="page-title">
+
+        <h1>
+            Community Health Dashboard
+        </h1>
+
+        <p>
+            Community-level health analysis and AI-based risk assessment
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <h3>Total COVID Cases</h3>
+
+            <div class="number">
+                {{ total_cases }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Recovered Cases</h3>
+
+            <div class="number">
+                {{ recovered_cases }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>Average Mental Health Impact</h3>
+
+            <div class="number">
+                {{ average_mental_health }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>High Risk Communities</h3>
+
+            <div class="number">
+                {{ high_risk_count }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         ANALYTICS
+    ================================================== -->
+
+    <div class="analytics-section">
+
+
+        <div class="analytics-header">
+
+            <h2>
+                Community Health Analytics
+            </h2>
+
+            <p>
+                Visual analysis of disease burden, recovery,
+                mental health and community risk.
+            </p>
+
+        </div>
+
+
+        <div class="analytics-grid">
+
+
+            <!-- =========================================
+                 1. TOTAL CASES
+            ========================================== -->
+
+            <div class="analytics-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <h3>
+                            Total Cases by Community
+                        </h3>
+
+                        <p>
+                            COVID-19 case comparison
+                        </p>
+
+                    </div>
+
+                    <span class="chart-label">
+                        CASES
+                    </span>
+
+                </div>
+
+
+                <div class="chart-container total-chart-container">
+
+                    <canvas id="totalCasesChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================================
+                 2. RECOVERED CASES
+            ========================================== -->
+
+            <div class="analytics-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <h3>
+                            Recovered Cases
+                        </h3>
+
+                        <p>
+                            Recovery comparison
+                        </p>
+
+                    </div>
+
+                    <span class="chart-label">
+                        RECOVERY
+                    </span>
+
+                </div>
+
+
+                <div class="chart-container">
+
+                    <canvas id="recoveredCasesChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================================
+                 3. MENTAL HEALTH
+            ========================================== -->
+
+            <div class="analytics-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <h3>
+                            Mental Health Impact
+                        </h3>
+
+                        <p>
+                            Ranked community impact
+                        </p>
+
+                    </div>
+
+                    <span class="chart-label">
+                        IMPACT / 100
+                    </span>
+
+                </div>
+
+
+                <div class="chart-container mental-chart-container">
+
+                    <canvas id="mentalHealthChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================================
+                 4. RISK DISTRIBUTION
+            ========================================== -->
+
+            <div class="analytics-card risk-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <h3>
+                            Community Risk Distribution
+                        </h3>
+
+                        <p>
+                            Overall community classification
+                        </p>
+
+                    </div>
+
+                    <span class="chart-label">
+                        RISK
+                    </span>
+
+                </div>
+
+
+                <div class="risk-wrapper">
+
+                    <canvas id="riskDistributionChart"></canvas>
+
+
+                    <div class="risk-center">
+
+                        <div
+                            class="risk-total"
+                            id="riskTotal">
+                            0
+                        </div>
+
+                        <div class="risk-label">
+                            Communities
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="risk-summary">
+
+
+                    <div class="risk-item">
+
+                        <strong id="highRiskCount">
+                            0
+                        </strong>
+
+                        <span>
+
+                            <i class="risk-dot dot-high"></i>
+
+                            High
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="risk-item">
+
+                        <strong id="mediumRiskCount">
+                            0
+                        </strong>
+
+                        <span>
+
+                            <i class="risk-dot dot-medium"></i>
+
+                            Medium
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="risk-item">
+
+                        <strong id="lowRiskCount">
+                            0
+                        </strong>
+
+                        <span>
+
+                            <i class="risk-dot dot-low"></i>
+
+                            Low
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+<!-- =====================================================
+     COMMUNITY RISK RANKING
+===================================================== -->
+
+<div class="risk-ranking-section">
+
+    <div class="ranking-header">
+
+        <h2>
+            Community Risk Ranking
+        </h2>
+
+        <p>
+            Communities ranked from highest to lowest
+            calculated health risk.
+        </p>
+
+    </div>
+
+
+    <div class="ranking-table-wrapper">
+
+        <table class="ranking-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Rank
+                    </th>
+
+                    <th>
+                        Community
+                    </th>
+
+                    <th>
+                        Risk Score
+                    </th>
+
+                    <th>
+                        Risk Level
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="riskRankingBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     EARLY WARNING ALERTS
+===================================================== -->
+
+<div class="early-warning-section">
+
+    <div class="warning-header">
+
+        <h2>
+            Early Warning Alerts
+        </h2>
+
+        <p>
+            Communities requiring attention based on current
+            health indicators.
+        </p>
+
+    </div>
+
+
+    <div
+        id="earlyWarningList"
+        class="warning-list">
+
+        <!-- Alerts generated by JavaScript -->
+
+    </div>
+
+</div>
+
+    <!-- =================================================
+         COMMUNITY TABLE
+    ================================================== -->
+
+    <div class="section">
+
+        <h2>
+            Community Health Data
+        </h2>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Community
+                        </th>
+
+                        <th>
+                            Total Cases
+                        </th>
+
+                        <th>
+                            Recovered Cases
+                        </th>
+
+                        <th>
+                            Mental Health Impact
+                        </th>
+
+                        <th>
+                            Risk Level
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for community in communities %}
+
+                    <tr>
+
+                        <td>
+                            {{ community.community }}
+                        </td>
+
+                        <td>
+                            {{ community.total_cases }}
+                        </td>
+
+                        <td>
+                            {{ community.recovered_cases }}
+                        </td>
+
+                        <td>
+                            {{ community.mental_health_impact }}
+                        </td>
+
+                        <td>
+
+                            {% if community.risk_level|lower == "high" %}
+
+                                <span class="risk-high">
+                                    High
+                                </span>
+
+                            {% elif community.risk_level|lower == "medium" %}
+
+                                <span class="risk-medium">
+                                    Medium
+                                </span>
+
+                            {% else %}
+
+                                <span class="risk-low">
+                                    Low
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         COMMUNITY DETAIL
+    ================================================== -->
+
+    <div class="section">
+
+        <h2>
+            Community Detailed Analysis
+        </h2>
+
+
+        <select id="communitySelect">
+
+            <option value="">
+                Select a community
+            </option>
+
+
+            {% for community in communities %}
+
+            <option value="{{ community.community }}">
+
+                {{ community.community }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <div
+            id="communityDetails"
+            style="display:none;">
+
+
+            <div class="detail-grid">
+
+
+                <div class="detail-card">
+
+                    <span>
+                        Community
+                    </span>
+
+                    <strong id="detailCommunity">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-card">
+
+                    <span>
+                        Total Cases
+                    </span>
+
+                    <strong id="detailCases">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-card">
+
+                    <span>
+                        Recovered Cases
+                    </span>
+
+                    <strong id="detailRecovered">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-card">
+
+                    <span>
+                        Mental Health Impact
+                    </span>
+
+                    <strong id="detailMental">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-card">
+
+                    <span>
+                        Risk Level
+                    </span>
+
+                    <strong id="detailRisk">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-card">
+
+                    <span>
+                        Recovery Rate
+                    </span>
+
+                    <strong id="detailRecovery">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-card">
+
+                    <span>
+                        Risk Score
+                    </span>
+
+                    <strong id="detailScore">
+                        -
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-card">
+
+                    <span>
+                        Calculated Risk
+                    </span>
+
+                    <strong id="detailCalculatedRisk">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- AI -->
+
+            <div class="ai-analysis-box">
+
+                <div class="ai-title">
+                    AI Health Risk Analysis
+                </div>
+
+
+                <div class="ai-grid">
+
+
+                    <div class="ai-item">
+
+                        <span>
+                            AI Prediction
+                        </span>
+
+                        <strong id="aiPrediction">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="ai-item">
+
+                        <span>
+                            AI Confidence
+                        </span>
+
+                        <strong id="aiConfidence">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="ai-item">
+
+                        <span>
+                            AI Model Accuracy
+                        </span>
+
+                        <strong>
+                            {{ model_accuracy }}%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="ai-item">
+
+                        <span>
+                            Risk Score
+                        </span>
+
+                        <strong id="aiRiskScore">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ai-recommendation">
+
+                    <strong>
+                        AI Recommendation
+                    </strong>
+
+                    <p id="aiRecommendation">
+
+                        Select a community to view
+                        the AI recommendation.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- WARNING -->
+
+            <div class="warning-box">
+
+                <strong>
+                    Early Warning Analysis
+                </strong>
+
+                <p id="detailWarning">
+                    -
+                </p>
+
+            </div>
+
+
+            <!-- RECOMMENDATION -->
+
+            <div class="recommendation-box">
+
+                <strong>
+                    Health Recommendation
+                </strong>
+
+                <p id="detailRecommendation">
+                    -
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         DOWNLOADS
+    ================================================== -->
+
+    <div class="section">
+
+        <h2>
+            Download Reports
+        </h2>
+
+
+        <div class="button-group">
+
+            <a
+                href="/download_csv"
+                class="download-btn">
+
+                Download CSV
+
+            </a>
+
+
+            <a
+                href="/download_pdf"
+                class="download-btn">
+
+                Download PDF
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- =====================================================
+     CHART JAVASCRIPT
+===================================================== -->
+
+<script>
+
+/* =====================================================
+   DATA
+===================================================== */
+
+const communities =
+    {{ communities | tojson }};
+
+
+const communityNames =
+    communities.map(
+        c => c.community
+    );
+
+
+const totalCases =
+    communities.map(
+        c => Number(c.total_cases)
+    );
+
+
+const recoveredCases =
+    communities.map(
+        c => Number(c.recovered_cases)
+    );
+
+
+const mentalHealthValues =
+    communities.map(
+        c =>
+            Number(
+                c.mental_health_impact
+            )
+    );
+
+
+/* =====================================================
+   CHART DEFAULTS
+===================================================== */
+
+Chart.defaults.font.family =
+    "Arial, Helvetica, sans-serif";
+
+Chart.defaults.font.size =
+    11;
+
+Chart.defaults.color =
+    "#64748b";
+
+Chart.defaults.animation.duration =
+    1000;
+
+
+/* =====================================================
+   1. TOTAL CASES
+   HORIZONTAL BAR
+===================================================== */
+
+const totalCtx =
+    document
+        .getElementById(
+            "totalCasesChart"
+        )
+        .getContext("2d");
+
+
+const totalGradient =
+    totalCtx.createLinearGradient(
+        0,
+        0,
+        650,
+        0
+    );
+
+
+totalGradient.addColorStop(
+    0,
+    "#0f766e"
+);
+
+
+totalGradient.addColorStop(
+    1,
+    "#14b8a6"
+);
+
+
+new Chart(
+    totalCtx,
+    {
+
+        type:
+            "bar",
+
+        data: {
+
+            labels:
+                communityNames,
+
+            datasets: [
+
+                {
+
+                    label:
+                        "Total Cases",
+
+                    data:
+                        totalCases,
+
+                    backgroundColor:
+                        totalGradient,
+
+                    borderRadius:
+                        6,
+
+                    borderSkipped:
+                        false,
+
+                    barThickness:
+                        15
+
+                }
+
+            ]
+
+        },
+
+
+        options: {
+
+            indexAxis:
+                "y",
+
+            responsive:
+                true,
+
+            maintainAspectRatio:
+                false,
+
+
+            plugins: {
+
+                legend: {
+
+                    display:
+                        false
+
+                },
+
+
+                tooltip: {
+
+                    backgroundColor:
+                        "#0d172b",
+
+                    padding:
+                        10,
+
+                    cornerRadius:
+                        8,
+
+                    displayColors:
+                        false
+
+                }
+
+            },
+
+
+            scales: {
+
+                x: {
+
+                    beginAtZero:
+                        true,
+
+                    grid: {
+
+                        color:
+                            "rgba(100,116,139,0.12)"
+
+                    },
+
+                    border: {
+
+                        display:
+                            false
+
+                    }
+
+                },
+
+
+                y: {
+
+                    grid: {
+
+                        display:
+                            false
+
+                    },
+
+                    border: {
+
+                        display:
+                            false
+
+                    },
+
+                    ticks: {
+
+                        color:
+                            "#334155",
+
+                        font: {
+
+                            size:
+                                10,
+
+                            weight:
+                                "600"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   2. RECOVERED CASES
+   LINE + AREA
+===================================================== */
+
+const recoveredCtx =
+    document
+        .getElementById(
+            "recoveredCasesChart"
+        )
+        .getContext("2d");
+
+
+const recoveredGradient =
+    recoveredCtx.createLinearGradient(
+        0,
+        0,
+        0,
+        280
+    );
+
+
+recoveredGradient.addColorStop(
+    0,
+    "rgba(20,184,166,0.28)"
+);
+
+
+recoveredGradient.addColorStop(
+    1,
+    "rgba(20,184,166,0.01)"
+);
+
+
+new Chart(
+    recoveredCtx,
+    {
+
+        type:
+            "line",
+
+        data: {
+
+            labels:
+                communityNames,
+
+            datasets: [
+
+                {
+
+                    label:
+                        "Recovered Cases",
+
+                    data:
+                        recoveredCases,
+
+                    borderColor:
+                        "#0f766e",
+
+                    backgroundColor:
+                        recoveredGradient,
+
+                    borderWidth:
+                        3,
+
+                    fill:
+                        true,
+
+                    tension:
+                        0.38,
+
+                    pointRadius:
+                        3.5,
+
+                    pointHoverRadius:
+                        6,
+
+                    pointBackgroundColor:
+                        "#ffffff",
+
+                    pointBorderColor:
+                        "#14b8a6",
+
+                    pointBorderWidth:
+                        2
+
+                }
+
+            ]
+
+        },
+
+
+        options: {
+
+            responsive:
+                true,
+
+            maintainAspectRatio:
+                false,
+
+
+            interaction: {
+
+                mode:
+                    "index",
+
+                intersect:
+                    false
+
+            },
+
+
+            plugins: {
+
+                legend: {
+
+                    display:
+                        false
+
+                },
+
+
+                tooltip: {
+
+                    backgroundColor:
+                        "#0d172b",
+
+                    padding:
+                        10,
+
+                    cornerRadius:
+                        8,
+
+                    displayColors:
+                        false
+
+                }
+
+            },
+
+
+            scales: {
+
+                x: {
+
+                    grid: {
+
+                        display:
+                            false
+
+                    },
+
+                    border: {
+
+                        display:
+                            false
+
+                    },
+
+                    ticks: {
+
+                        maxRotation:
+                            45,
+
+                        minRotation:
+                            45
+
+                    }
+
+                },
+
+
+                y: {
+
+                    beginAtZero:
+                        true,
+
+                    grid: {
+
+                        color:
+                            "rgba(100,116,139,0.12)"
+
+                    },
+
+                    border: {
+
+                        display:
+                            false
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   3. MENTAL HEALTH
+   RANKED HORIZONTAL BAR
+===================================================== */
+
+const mentalSorted =
+    communities
+        .map(
+            c => ({
+
+                name:
+                    c.community,
+
+                value:
+                    Number(
+                        c.mental_health_impact
+                    )
+
+            })
+        )
+        .sort(
+            (a, b) =>
+                b.value - a.value
+        );
+
+
+const mentalLabels =
+    mentalSorted.map(
+        c => c.name
+    );
+
+
+const mentalValues =
+    mentalSorted.map(
+        c => c.value
+    );
+
+
+const mentalCtx =
+    document
+        .getElementById(
+            "mentalHealthChart"
+        )
+        .getContext("2d");
+
+
+const mentalGradient =
+    mentalCtx.createLinearGradient(
+        0,
+        0,
+        650,
+        0
+    );
+
+
+mentalGradient.addColorStop(
+    0,
+    "#0f766e"
+);
+
+
+mentalGradient.addColorStop(
+    1,
+    "#5eead4"
+);
+
+
+new Chart(
+    mentalCtx,
+    {
+
+        type:
+            "bar",
+
+        data: {
+
+            labels:
+                mentalLabels,
+
+            datasets: [
+
+                {
+
+                    label:
+                        "Mental Health Impact",
+
+                    data:
+                        mentalValues,
+
+                    backgroundColor:
+                        mentalGradient,
+
+                    borderRadius:
+                        6,
+
+                    borderSkipped:
+                        false,
+
+                    barThickness:
+                        10
+
+                }
+
+            ]
+
+        },
+
+
+        options: {
+
+            indexAxis:
+                "y",
+
+            responsive:
+                true,
+
+            maintainAspectRatio:
+                false,
+
+
+            plugins: {
+
+                legend: {
+
+                    display:
+                        false
+
+                },
+
+
+                tooltip: {
+
+                    backgroundColor:
+                        "#0d172b",
+
+                    padding:
+                        10,
+
+                    cornerRadius:
+                        8,
+
+                    displayColors:
+                        false,
+
+
+                    callbacks: {
+
+                        label:
+                            function(context) {
+
+                                return (
+                                    " Impact Score: " +
+                                    context.raw +
+                                    " / 100"
+                                );
+
+                            }
+
+                    }
+
+                }
+
+            },
+
+
+            scales: {
+
+                x: {
+
+                    beginAtZero:
+                        true,
+
+                    max:
+                        100,
+
+                    grid: {
+
+                        color:
+                            "rgba(20,184,166,0.12)"
+
+                    },
+
+                    border: {
+
+                        display:
+                            false
+
+                    },
+
+                    ticks: {
+
+                        stepSize:
+                            20
+
+                    }
+
+                },
+
+
+                y: {
+
+                    grid: {
+
+                        display:
+                            false
+
+                    },
+
+                    border: {
+
+                        display:
+                            false
+
+                    },
+
+                    ticks: {
+
+                        color:
+                            "#334155",
+
+                        font: {
+
+                            size:
+                                10,
+
+                            weight:
+                                "600"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   4. RISK DISTRIBUTION
+   DOUGHNUT
+===================================================== */
+
+let highRisk =
+    0;
+
+let mediumRisk =
+    0;
+
+let lowRisk =
+    0;
+
+
+communities.forEach(
+    c => {
+
+        const risk =
+            String(
+                c.risk_level
+            )
+            .toLowerCase()
+            .trim();
+
+
+        if (risk === "high") {
+
+            highRisk++;
+
+        }
+
+        else if (risk === "medium") {
+
+            mediumRisk++;
+
+        }
+
+        else {
+
+            lowRisk++;
+
+        }
+
+    }
+);
+
+
+const riskTotal =
+    highRisk +
+    mediumRisk +
+    lowRisk;
+
+
+document.getElementById(
+    "riskTotal"
+).textContent =
+    riskTotal;
+
+
+document.getElementById(
+    "highRiskCount"
+).textContent =
+    highRisk;
+
+
+document.getElementById(
+    "mediumRiskCount"
+).textContent =
+    mediumRisk;
+
+
+document.getElementById(
+    "lowRiskCount"
+).textContent =
+    lowRisk;
+
+
+const riskCtx =
+    document
+        .getElementById(
+            "riskDistributionChart"
+        )
+        .getContext("2d");
+
+
+new Chart(
+    riskCtx,
+    {
+
+        type:
+            "doughnut",
+
+        data: {
+
+            labels: [
+
+                "High Risk",
+
+                "Medium Risk",
+
+                "Low Risk"
+
+            ],
+
+            datasets: [
+
+                {
+
+                    data: [
+
+                        highRisk,
+
+                        mediumRisk,
+
+                        lowRisk
+
+                    ],
+
+                    backgroundColor: [
+
+                        "#dc2626",
+
+                        "#f59e0b",
+
+                        "#16a34a"
+
+                    ],
+
+                    borderColor:
+                        "#ffffff",
+
+                    borderWidth:
+                        4,
+
+                    hoverOffset:
+                        9
+
+                }
+
+            ]
+
+        },
+
+
+        options: {
+
+            responsive:
+                true,
+
+            maintainAspectRatio:
+                false,
+
+            cutout:
+                "72%",
+
+
+            plugins: {
+
+                legend: {
+
+                    display:
+                        false
+
+                },
+
+
+                tooltip: {
+
+                    backgroundColor:
+                        "#0d172b",
+
+                    padding:
+                        10,
+
+                    cornerRadius:
+                        8,
+
+                    callbacks: {
+
+                        label:
+                            function(context) {
+
+                                const percentage =
+                                    riskTotal > 0
+                                    ? (
+                                        context.raw /
+                                        riskTotal *
+                                        100
+                                      ).toFixed(1)
+                                    : 0;
+
+                                return (
+                                    " " +
+                                    context.label +
+                                    ": " +
+                                    context.raw +
+                                    " communities (" +
+                                    percentage +
+                                    "%)"
+                                );
+
+                            }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+);
+
+/* =====================================================
+   EARLY WARNING ALERT SYSTEM
+===================================================== */
+
+const earlyWarningList =
+    document.getElementById(
+        "earlyWarningList"
+    );
+
+
+/*
+   Create a copy and rank communities
+   by risk score.
+*/
+
+const warningCommunities =
+    [...communities].sort(
+        (a, b) =>
+            Number(b.risk_score || 0) -
+            Number(a.risk_score || 0)
+    );
+
+
+/*
+   Generate alerts
+*/
+
+warningCommunities.forEach(
+    community => {
+
+        const totalCases =
+            Number(
+                community.total_cases || 0
+            );
+
+        const mentalHealth =
+            Number(
+                community.mental_health_impact || 0
+            );
+
+        const riskScore =
+            Number(
+                community.risk_score || 0
+            );
+
+        const recoveryRate =
+            Number(
+                community.recovery_rate || 0
+            );
+
+        const riskLevel =
+            String(
+                community.risk_level || ""
+            )
+            .toLowerCase()
+            .trim();
+
+
+        let priority = "low";
+
+        let message =
+            "Continue routine community health monitoring.";
+
+
+        /* =============================================
+           HIGH PRIORITY
+        ============================================== */
+
+        if (
+            riskLevel === "high" ||
+            riskScore >= 61 ||
+            mentalHealth >= 70 ||
+            recoveryRate < 70
+        ) {
+
+            priority = "high";
+
+            message =
+                "Immediate attention and priority health monitoring are recommended.";
+
+        }
+
+
+        /* =============================================
+           MEDIUM PRIORITY
+        ============================================== */
+
+        else if (
+            riskLevel === "medium" ||
+            riskScore >= 31 ||
+            mentalHealth >= 50 ||
+            recoveryRate < 85
+        ) {
+
+            priority = "medium";
+
+            message =
+                "Increased monitoring and preventive health measures are recommended.";
+
+        }
+
+
+        /* =============================================
+           CREATE ALERT
+        ============================================== */
+
+        const alert =
+            document.createElement("div");
+
+
+        alert.classList.add(
+            "warning-alert"
+        );
+
+
+        alert.classList.add(
+            "warning-" + priority
+        );
+
+
+        let priorityText =
+            priority === "high"
+            ? "HIGH PRIORITY"
+            : priority === "medium"
+            ? "MEDIUM PRIORITY"
+            : "LOW PRIORITY";
+
+
+        let priorityClass =
+            priority === "high"
+            ? "priority-high"
+            : priority === "medium"
+            ? "priority-medium"
+            : "priority-low";
+
+
+        alert.innerHTML = `
+
+            <div class="warning-indicator"></div>
+
+            <div class="warning-content">
+
+                <div class="warning-community">
+                    ${community.community}
+                </div>
+
+                <div class="warning-message">
+                    ${message}
+                </div>
+
+
+                <div class="warning-meta">
+
+                    <span class="warning-tag">
+                        Cases:
+                        ${totalCases.toLocaleString()}
+                    </span>
+
+                    <span class="warning-tag">
+                        Mental Health:
+                        ${mentalHealth}
+                    </span>
+
+                    <span class="warning-tag">
+                        Risk Score:
+                        ${riskScore}/100
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="warning-priority ${priorityClass}">
+                ${priorityText}
+            </div>
+
+        `;
+
+
+        earlyWarningList.appendChild(
+            alert
+        );
+
+    }
+);
+
+
+/*
+   No communities found
+*/
+
+if (
+    warningCommunities.length === 0
+) {
+
+    earlyWarningList.innerHTML = `
+
+        <div class="no-warning">
+            No community warning data available.
+        </div>
+
+    `;
+
+}
+
+/* =====================================================
+   COMMUNITY DETAIL
+===================================================== */
+
+const communitySelect =
+    document.getElementById(
+        "communitySelect"
+    );
+
+
+communitySelect.addEventListener(
+    "change",
+    function() {
+
+        const community =
+            this.value;
+
+        const details =
+            document.getElementById(
+                "communityDetails"
+            );
+
+
+        if (!community) {
+
+            details.style.display =
+                "none";
+
+            return;
+
+        }
+
+
+        fetch(
+            "/api/community/" +
+            encodeURIComponent(
+                community
+            )
+        )
+
+        .then(
+            response => {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Unable to load community data"
+                    );
+
+                }
+
+                return response.json();
+
+            }
+        )
+
+        .then(
+            data => {
+
+
+                details.style.display =
+                    "block";
+
+
+                document.getElementById(
+                    "detailCommunity"
+                ).textContent =
+                    data.community ||
+                    "-";
+
+
+                document.getElementById(
+                    "detailCases"
+                ).textContent =
+                    data.totalCases ??
+                    "-";
+
+
+                document.getElementById(
+                    "detailRecovered"
+                ).textContent =
+                    data.recoveredCases ??
+                    "-";
+
+
+                document.getElementById(
+                    "detailMental"
+                ).textContent =
+                    data.mentalHealth ??
+                    "-";
+
+
+                document.getElementById(
+                    "detailRisk"
+                ).textContent =
+                    data.riskLevel ||
+                    "-";
+
+
+                document.getElementById(
+                    "detailRecovery"
+                ).textContent =
+                    data.recoveryRate !== undefined
+                    ? data.recoveryRate + "%"
+                    : "-";
+
+
+                document.getElementById(
+                    "detailScore"
+                ).textContent =
+                    data.riskScore !== undefined
+                    ? data.riskScore + "/100"
+                    : "-";
+
+
+                document.getElementById(
+                    "detailCalculatedRisk"
+                ).textContent =
+                    data.calculatedRisk ||
+                    "-";
+
+
+                document.getElementById(
+                    "aiPrediction"
+                ).textContent =
+                    data.aiPrediction ||
+                    "Unavailable";
+
+
+                document.getElementById(
+                    "aiConfidence"
+                ).textContent =
+                    data.aiConfidence !== undefined
+                    ? data.aiConfidence + "%"
+                    : "Unavailable";
+
+
+                document.getElementById(
+                    "aiRiskScore"
+                ).textContent =
+                    data.riskScore !== undefined
+                    ? data.riskScore + "/100"
+                    : "-";
+
+
+                document.getElementById(
+                    "aiRecommendation"
+                ).textContent =
+                    data.aiRecommendation ||
+                    "AI recommendation is currently unavailable.";
+
+
+                document.getElementById(
+                    "detailWarning"
+                ).textContent =
+                    data.warning ||
+                    "No warning information available.";
+
+
+                document.getElementById(
+                    "detailRecommendation"
+                ).textContent =
+                    data.recommendation ||
+                    "No recommendation available.";
+
+            }
+
+        )
+
+        .catch(
+            error => {
+
+                console.error(error);
+
+                details.style.display =
+                    "block";
+
+                document.getElementById(
+                    "aiRecommendation"
+                ).textContent =
+                    "Unable to load AI analysis.";
+
+            }
+        );
+
+    }
+);
+
+/* =====================================================
+   COMMUNITY RISK RANKING
+===================================================== */
+
+
+/*
+   Copy community data so the original array
+   is not changed.
+*/
+
+const rankedCommunities =
+    [...communities]
+        .sort(
+            (a, b) =>
+                Number(b.risk_score || 0) -
+                Number(a.risk_score || 0)
+        );
+
+
+const rankingBody =
+    document.getElementById(
+        "riskRankingBody"
+    );
+
+
+/*
+   Create ranking rows
+*/
+
+rankedCommunities.forEach(
+    (community, index) => {
+
+
+        const score =
+            Number(
+                community.risk_score || 0
+            );
+
+
+        const risk =
+            String(
+                community.calculated_risk ||
+                community.risk_level ||
+                "Low"
+            );
+
+
+        let riskClass =
+            "ranking-low";
+
+
+        if (
+            risk.toLowerCase()
+                .includes("high")
+        ) {
+
+            riskClass =
+                "ranking-high";
+
+        }
+
+        else if (
+            risk.toLowerCase()
+                .includes("medium")
+        ) {
+
+            riskClass =
+                "ranking-medium";
+
+        }
+
+
+        const row =
+            document.createElement(
+                "tr"
+            );
+
+
+        row.innerHTML = `
+
+            <td>
+
+                <span class="rank-number">
+                    ${index + 1}
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <span class="community-name">
+
+                    ${community.community}
+
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <div class="score-wrapper">
+
+                    <div class="score-bar">
+
+                        <div
+                            class="score-fill"
+                            style="width:${Math.min(score, 100)}%;">
+                        </div>
+
+                    </div>
+
+                    <span class="score-value">
+                        ${score}/100
+                    </span>
+
+                </div>
+
+            </td>
+
+
+            <td>
+
+                <span class="${riskClass}">
+                    ${risk}
+                </span>
+
+            </td>
+
+        `;
+
+
+        rankingBody.appendChild(
+            row
+        );
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

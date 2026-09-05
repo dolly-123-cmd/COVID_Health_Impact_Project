@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>About | Community Health Analysis</title>
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #eef4f7;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
+
+        header {
+            background: #0d172b;
+            padding: 18px 45px;
+            color: white;
+
+            box-shadow:
+                0 5px 20px rgba(15, 23, 42, 0.12);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: #20c4b3;
+        }
+
+
+        /* =====================================================
+           CONTAINER
+        ===================================================== */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: 40px auto 60px;
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .about-hero {
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0d172b,
+                    #102641
+                );
+
+            border-radius: 24px;
+
+            padding: 55px 50px;
+
+            color: white;
+
+            margin-bottom: 28px;
+
+            box-shadow:
+                0 15px 40px rgba(15, 23, 42, 0.16);
+        }
+
+        .about-hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+            height: 250px;
+
+            border-radius: 50%;
+
+            right: -80px;
+            top: -90px;
+
+            background:
+                rgba(20, 184, 166, 0.12);
+        }
+
+        .about-hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 170px;
+            height: 170px;
+
+            border-radius: 50%;
+
+            right: 120px;
+            bottom: -100px;
+
+            background:
+                rgba(45, 212, 191, 0.08);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+
+            max-width: 850px;
+        }
+
+        .hero-label {
+            display: inline-block;
+
+            padding: 7px 13px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(20,184,166,0.15);
+
+            color:
+                #5eead4;
+
+            border:
+                1px solid rgba(94,234,212,0.18);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.5px;
+
+            margin-bottom: 18px;
+        }
+
+        .about-hero h1 {
+            font-size: 42px;
+
+            line-height: 1.15;
+
+            margin-bottom: 16px;
+
+            letter-spacing: -0.8px;
+        }
+
+        .about-hero p {
+            color: #d5e1ee;
+
+            line-height: 1.8;
+
+            font-size: 16px;
+        }
+
+
+        /* =====================================================
+           SECTION
+        ===================================================== */
+
+        .section {
+            background: white;
+
+            border-radius: 19px;
+
+            padding: 30px;
+
+            margin-bottom: 24px;
+
+            border:
+                1px solid #e1e8ee;
+
+            box-shadow:
+                0 8px 25px rgba(15,23,42,0.055);
+        }
+
+        .section-header {
+            margin-bottom: 22px;
+        }
+
+        .section-header h2 {
+            color: #0d172b;
+
+            font-size: 24px;
+
+            margin-bottom: 7px;
+        }
+
+        .section-header p {
+            color: #64748b;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           PROJECT INTRO
+        ===================================================== */
+
+        .intro-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.2fr 0.8fr;
+
+            gap: 25px;
+
+            align-items: stretch;
+        }
+
+        .intro-text {
+            color: #475569;
+
+            line-height: 1.8;
+
+            font-size: 14px;
+        }
+
+        .intro-highlight {
+            background:
+                linear-gradient(
+                    145deg,
+                    #f0fdfa,
+                    #f8fafc
+                );
+
+            border:
+                1px solid #cceee8;
+
+            border-left:
+                5px solid #14b8a6;
+
+            border-radius: 14px;
+
+            padding: 22px;
+        }
+
+        .intro-highlight h3 {
+            color: #0f766e;
+
+            font-size: 17px;
+
+            margin-bottom: 10px;
+        }
+
+        .intro-highlight p {
+            color: #475569;
+
+            line-height: 1.7;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           PROBLEM / SOLUTION
+        ===================================================== */
+
+        .problem-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+        }
+
+        .problem-card,
+        .solution-card {
+            padding: 23px;
+
+            border-radius: 14px;
+
+            border:
+                1px solid #e2e8f0;
+        }
+
+        .problem-card {
+            background: #fff7ed;
+
+            border-left:
+                5px solid #f97316;
+        }
+
+        .solution-card {
+            background: #f0fdfa;
+
+            border-left:
+                5px solid #14b8a6;
+        }
+
+        .problem-card h3,
+        .solution-card h3 {
+            font-size: 17px;
+
+            margin-bottom: 12px;
+        }
+
+        .problem-card h3 {
+            color: #9a3412;
+        }
+
+        .solution-card h3 {
+            color: #0f766e;
+        }
+
+        .problem-card p,
+        .solution-card p {
+            color: #475569;
+
+            line-height: 1.7;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           FEATURES
+        ===================================================== */
+
+        .feature-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+        }
+
+        .feature-card {
+            background: #f8fafc;
+
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 13px;
+
+            padding: 20px;
+
+            transition: 0.25s ease;
+        }
+
+        .feature-card:hover {
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 10px 25px rgba(15,23,42,0.08);
+        }
+
+        .feature-number {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #e6fffa;
+
+            color: #0f766e;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            margin-bottom: 14px;
+        }
+
+        .feature-card h3 {
+            color: #0d172b;
+
+            font-size: 16px;
+
+            margin-bottom: 7px;
+        }
+
+        .feature-card p {
+            color: #64748b;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           SYSTEM FLOW
+        ===================================================== */
+
+        .flow-container {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+        .flow-step {
+            min-width: 145px;
+
+            text-align: center;
+
+            background: #f8fafc;
+
+            border:
+                1px solid #dce5ec;
+
+            border-radius: 12px;
+
+            padding: 16px 12px;
+        }
+
+        .flow-step strong {
+            display: block;
+
+            color: #0d172b;
+
+            font-size: 13px;
+
+            margin-bottom: 4px;
+        }
+
+        .flow-step span {
+            color: #64748b;
+
+            font-size: 11px;
+        }
+
+        .flow-arrow {
+            color: #14b8a6;
+
+            font-size: 20px;
+
+            font-weight: bold;
+        }
+
+
+        /* =====================================================
+           AI SECTION
+        ===================================================== */
+
+        .ai-box {
+            background:
+                linear-gradient(
+                    135deg,
+                    #f0fdfa,
+                    #f8fafc
+                );
+
+            border:
+                1px solid #cceee8;
+
+            border-radius: 16px;
+
+            padding: 25px;
+        }
+
+        .ai-box h3 {
+            color: #0f766e;
+
+            font-size: 19px;
+
+            margin-bottom: 10px;
+        }
+
+        .ai-box p {
+            color: #475569;
+
+            line-height: 1.8;
+
+            font-size: 14px;
+        }
+
+        .ai-features {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin-top: 18px;
+        }
+
+        .ai-feature {
+            background: white;
+
+            border:
+                1px solid #dfe8eb;
+
+            border-radius: 11px;
+
+            padding: 15px;
+        }
+
+        .ai-feature strong {
+            display: block;
+
+            color: #0d172b;
+
+            font-size: 13px;
+
+            margin-bottom: 4px;
+        }
+
+        .ai-feature span {
+            color: #64748b;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           FUTURE SCOPE
+        ===================================================== */
+
+        .future-list {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 12px;
+        }
+
+        .future-item {
+            display: flex;
+
+            gap: 12px;
+
+            align-items: flex-start;
+
+            background: #f8fafc;
+
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 11px;
+
+            padding: 15px;
+        }
+
+        .future-mark {
+            width: 10px;
+
+            height: 10px;
+
+            min-width: 10px;
+
+            border-radius: 50%;
+
+            background: #14b8a6;
+
+            margin-top: 5px;
+        }
+
+        .future-item strong {
+            display: block;
+
+            color: #0d172b;
+
+            font-size: 13px;
+
+            margin-bottom: 4px;
+        }
+
+        .future-item span {
+            color: #64748b;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           DISCLAIMER
+        ===================================================== */
+
+        .disclaimer {
+            padding: 18px;
+
+            background: #f8fafc;
+
+            border-radius: 11px;
+
+            border:
+                1px solid #e2e8f0;
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .about-footer {
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+
+            padding: 10px 0;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .ai-features {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 15px 20px;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 14px;
+            }
+
+            .container {
+                width: 94%;
+                margin-top: 25px;
+            }
+
+            .about-hero {
+                padding: 38px 25px;
+                border-radius: 19px;
+            }
+
+            .about-hero h1 {
+                font-size: 31px;
+            }
+
+            .about-hero p {
+                font-size: 14px;
+            }
+
+            .section {
+                padding: 21px;
+            }
+
+            .problem-grid,
+            .feature-grid,
+            .ai-features,
+            .future-list {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<header>
+
+    <nav>
+
+        <div class="logo">
+            Community Health Analysis
+        </div>
+
+
+        <ul>
+
+            <li>
+                <a href="/index">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="/dashboard">
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="/prediction">
+                    Risk Prediction
+                </a>
+            </li>
+
+            <li>
+                <a href="/about"
+                   class="active">
+                    About
+                </a>
+            </li>
+
+            <li>
+                <a href="/contact">
+                    Contact
+                </a>
+            </li>
+
+            <li>
+                <a href="/logout">
+                    Sign Out
+                </a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<div class="container">
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <div class="about-hero">
+
+        <div class="hero-content">
+
+            <span class="hero-label">
+                COMMUNITY HEALTH INTELLIGENCE
+            </span>
+
+            <h1>
+                About Community Health Analysis
+            </h1>
+
+            <p>
+                Community Health Analysis is a data-driven platform
+                designed to analyze community-level health conditions,
+                understand the impact of COVID-19, monitor recovery,
+                assess mental health impact, and support AI-based
+                community risk assessment.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         ABOUT THE PROJECT
+    ================================================== -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>
+                About the Project
+            </h2>
+
+            <p>
+                Understanding community health through data,
+                analytics and intelligent risk assessment.
+            </p>
+
+        </div>
+
+
+        <div class="intro-grid">
+
+
+            <div class="intro-text">
+
+                <p>
+                    The Community Health Analysis platform
+                    focuses on understanding how health conditions
+                    can affect communities at a broader level.
+                    The system combines community health data,
+                    visualization, traditional risk scoring and
+                    machine learning-based analysis.
+                </p>
+
+                <br>
+
+                <p>
+                    The platform provides a centralized environment
+                    where users can explore health indicators,
+                    compare communities, identify higher-risk areas,
+                    examine mental health impact and receive
+                    AI-based risk predictions.
+                </p>
+
+            </div>
+
+
+            <div class="intro-highlight">
+
+                <h3>
+                    Project Goal
+                </h3>
+
+                <p>
+                    To support early identification of community
+                    health concerns and provide understandable,
+                    data-driven insights that can help with
+                    monitoring, preparedness and preventive
+                    health planning.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         PROBLEM AND SOLUTION
+    ================================================== -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>
+                The Problem and Our Solution
+            </h2>
+
+        </div>
+
+
+        <div class="problem-grid">
+
+
+            <div class="problem-card">
+
+                <h3>
+                    The Challenge
+                </h3>
+
+                <p>
+                    Community health information can be difficult
+                    to understand when it is distributed across
+                    different datasets and indicators. It may also
+                    be difficult to identify which communities need
+                    greater attention.
+                </p>
+
+            </div>
+
+
+            <div class="solution-card">
+
+                <h3>
+                    Our Solution
+                </h3>
+
+                <p>
+                    The platform brings important indicators into
+                    one dashboard and combines visualization,
+                    risk ranking, early warning analysis and AI
+                    prediction to provide a clearer community-level
+                    health picture.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         KEY FEATURES
+    ================================================== -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>
+                Key Features
+            </h2>
+
+            <p>
+                Core capabilities available in the platform.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+
+            <div class="feature-card">
+
+                <div class="feature-number">
+                    01
+                </div>
+
+                <h3>
+                    Health Dashboard
+                </h3>
+
+                <p>
+                    Provides an overview of cases, recoveries,
+                    mental health impact and community risk.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-number">
+                    02
+                </div>
+
+                <h3>
+                    Health Analytics
+                </h3>
+
+                <p>
+                    Uses visual charts to compare health indicators
+                    between communities.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-number">
+                    03
+                </div>
+
+                <h3>
+                    Risk Ranking
+                </h3>
+
+                <p>
+                    Ranks communities according to calculated
+                    health risk scores.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-number">
+                    04
+                </div>
+
+                <h3>
+                    Early Warning Alerts
+                </h3>
+
+                <p>
+                    Highlights communities where indicators suggest
+                    increased attention may be appropriate.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-number">
+                    05
+                </div>
+
+                <h3>
+                    AI Risk Prediction
+                </h3>
+
+                <p>
+                    Uses a trained machine learning model to estimate
+                    community health risk from available indicators.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-number">
+                    06
+                </div>
+
+                <h3>
+                    Report Generation
+                </h3>
+
+                <p>
+                    Allows health information to be downloaded for
+                    further analysis and documentation.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         HOW SYSTEM WORKS
+    ================================================== -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>
+                How the System Works
+            </h2>
+
+            <p>
+                A simple flow from community data to health insight.
+            </p>
+
+        </div>
+
+
+        <div class="flow-container">
+
+
+            <div class="flow-step">
+
+                <strong>
+                    Community Data
+                </strong>
+
+                <span>
+                    Health indicators
+                </span>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+
+            <div class="flow-step">
+
+                <strong>
+                    Data Analysis
+                </strong>
+
+                <span>
+                    Processing and comparison
+                </span>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+
+            <div class="flow-step">
+
+                <strong>
+                    Risk Assessment
+                </strong>
+
+                <span>
+                    Score and classification
+                </span>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+
+            <div class="flow-step">
+
+                <strong>
+                    AI Prediction
+                </strong>
+
+                <span>
+                    Machine learning analysis
+                </span>
+
+            </div>
+
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+
+            <div class="flow-step">
+
+                <strong>
+                    Health Insight
+                </strong>
+
+                <span>
+                    Warning and recommendations
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         AI
+    ================================================== -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>
+                AI-Based Health Risk Assessment
+            </h2>
+
+        </div>
+
+
+        <div class="ai-box">
+
+            <h3>
+                Intelligent Community Risk Analysis
+            </h3>
+
+            <p>
+                The platform uses machine learning to analyze
+                selected community health indicators and generate
+                a predicted risk category together with a confidence
+                value. This AI analysis complements the traditional
+                risk assessment already available on the platform.
+            </p>
+
+
+            <div class="ai-features">
+
+
+                <div class="ai-feature">
+
+                    <strong>
+                        Risk Prediction
+                    </strong>
+
+                    <span>
+                        Estimates a community risk category.
+                    </span>
+
+                </div>
+
+
+                <div class="ai-feature">
+
+                    <strong>
+                        Confidence
+                    </strong>
+
+                    <span>
+                        Shows the model's prediction confidence.
+                    </span>
+
+                </div>
+
+
+                <div class="ai-feature">
+
+                    <strong>
+                        Model Accuracy
+                    </strong>
+
+                    <span>
+                        Displays the trained model's reported accuracy.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         FUTURE SCOPE
+    ================================================== -->
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>
+                Future Scope
+            </h2>
+
+            <p>
+                Potential improvements for a larger-scale health
+                monitoring platform.
+            </p>
+
+        </div>
+
+
+        <div class="future-list">
+
+
+            <div class="future-item">
+
+                <div class="future-mark"></div>
+
+                <div>
+
+                    <strong>
+                        Real-Time Health Data
+                    </strong>
+
+                    <span>
+                        Integrate continuously updated health information.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="future-item">
+
+                <div class="future-mark"></div>
+
+                <div>
+
+                    <strong>
+                        Geographic Risk Mapping
+                    </strong>
+
+                    <span>
+                        Display community risk levels on an interactive map.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="future-item">
+
+                <div class="future-mark"></div>
+
+                <div>
+
+                    <strong>
+                        Prediction History
+                    </strong>
+
+                    <span>
+                        Track previous AI predictions and changes over time.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="future-item">
+
+                <div class="future-mark"></div>
+
+                <div>
+
+                    <strong>
+                        Advanced Early Warning
+                    </strong>
+
+                    <span>
+                        Combine additional indicators for stronger monitoring.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="future-item">
+
+                <div class="future-mark"></div>
+
+                <div>
+
+                    <strong>
+                        Improved AI Models
+                    </strong>
+
+                    <span>
+                        Evaluate more data and models as quality datasets become available.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="future-item">
+
+                <div class="future-mark"></div>
+
+                <div>
+
+                    <strong>
+                        Community Health Trends
+                    </strong>
+
+                    <span>
+                        Track changes in health indicators over longer periods.
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         DISCLAIMER
+    ================================================== -->
+
+    <div class="section">
+
+        <div class="disclaimer">
+
+            <strong>
+                Important:
+            </strong>
+
+            This platform is intended for educational,
+            analytical and community-health monitoring purposes.
+            AI predictions and risk indicators should be treated
+            as decision-support information and not as a medical
+            diagnosis or a substitute for professional healthcare
+            guidance.
+
+        </div>
+
+    </div>
+
+
+
+    <div class="about-footer">
+
+        Community Health Analysis Platform
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

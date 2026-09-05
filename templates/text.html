@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Messages</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f7fb;
+            margin:40px;
+        }
+
+        h1{
+            color:#0d47a1;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+        }
+
+        th{
+            background:#0d47a1;
+            color:white;
+            padding:12px;
+        }
+
+        td{
+            padding:12px;
+            border:1px solid #ddd;
+        }
+
+        tr:nth-child(even){
+            background:#f8f8f8;
+        }
+
+        a{
+            display:inline-block;
+            margin-top:20px;
+            background:#0d47a1;
+            color:white;
+            text-decoration:none;
+            padding:10px 20px;
+            border-radius:5px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>Contact Messages</h1>
+
+<table>
+
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Subject</th>
+<th>Message</th>
+</tr>
+
+{% for msg in messages %}
+
+<tr>
+
+<td>{{ msg.Name }}</td>
+
+<td>{{ msg.Email }}</td>
+
+<td>{{ msg.Subject }}</td>
+
+<td>{{ msg.Message }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<a href="/">Back to Home</a>
+
+</body>
+</html>

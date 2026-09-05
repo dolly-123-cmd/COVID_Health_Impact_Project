@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign In | Community Health Analysis</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #eef4f7;
+            color: #111827;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        header {
+            background: #0d172b;
+            color: white;
+            padding: 18px 48px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #20c4b3;
+        }
+
+        /* =========================
+           LOGIN SECTION
+        ========================= */
+
+        .login-section {
+            min-height: calc(100vh - 80px);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 50px 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 450px;
+
+            background: white;
+
+            padding: 40px;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 10px 30px rgba(15, 23, 42, 0.12);
+
+            border-top: 5px solid #14b8a6;
+        }
+
+        .login-icon {
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 20px;
+
+            background: #c8f7f1;
+
+            border-radius: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 32px;
+        }
+
+        .login-card h1 {
+            text-align: center;
+
+            color: #0d172b;
+
+            font-size: 32px;
+
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+
+            color: #64748b;
+
+            font-size: 16px;
+
+            line-height: 1.6;
+
+            margin-bottom: 30px;
+        }
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        .error-message {
+            background: #fff1f2;
+
+            color: #be123c;
+
+            border: 1px solid #fecdd3;
+
+            border-left: 5px solid #e11d48;
+
+            padding: 13px 15px;
+
+            border-radius: 7px;
+
+            margin-bottom: 20px;
+
+            font-weight: bold;
+        }
+
+        /* =========================
+           SUCCESS
+        ========================= */
+
+        .success-message {
+            background: #ecfdf5;
+
+            color: #047857;
+
+            border: 1px solid #a7f3d0;
+
+            border-left: 5px solid #10b981;
+
+            padding: 13px 15px;
+
+            border-radius: 7px;
+
+            margin-bottom: 20px;
+
+            font-weight: bold;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+
+            color: #172033;
+        }
+
+        .form-group input {
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            outline: none;
+
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #14b8a6;
+
+            box-shadow:
+                0 0 0 3px rgba(20,184,166,0.12);
+        }
+
+        /* =========================
+           LOGIN BUTTON
+        ========================= */
+
+        .login-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            background: #14b8a6;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            margin-top: 5px;
+        }
+
+        .login-btn:hover {
+            background: #0f9f91;
+
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           LINKS
+        ========================= */
+
+        .login-links {
+            text-align: center;
+
+            margin-top: 25px;
+        }
+
+        .login-links p {
+            color: #64748b;
+
+            margin-bottom: 12px;
+        }
+
+        .login-links a {
+            color: #0f766e;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .login-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 15px 20px;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li a {
+                font-size: 15px;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .login-card {
+                padding: 30px 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <nav>
+
+        <div class="logo">
+            Community Health Analysis
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="/">Sign In</a>
+            </li>
+
+            <li>
+                <a href="/register">Create Account</a>
+            </li>
+
+            <li>
+                <a href="/dashboard">Dashboard</a>
+            </li>
+
+            <li>
+                <a href="/prediction">Risk Prediction</a>
+            </li>
+
+            <li>
+                <a href="/about">About</a>
+            </li>
+
+            <li>
+                <a href="/contact">Contact</a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+
+<section class="login-section">
+
+    <div class="login-card">
+
+        <div class="login-icon">
+            🔐
+        </div>
+
+        <h1>
+            Sign In
+        </h1>
+
+        <p class="subtitle">
+            Login to access the Community Health Analysis platform.
+        </p>
+
+
+        {% if error %}
+
+        <div class="error-message">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if success %}
+
+        <div class="success-message">
+            {{ success }}
+        </div>
+
+        {% endif %}
+
+
+        <form action="/login" method="POST">
+
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-btn">
+
+                Sign In
+
+            </button>
+
+        </form>
+
+
+        <div class="login-links">
+
+            <p>
+                Don't have an account?
+
+                <a href="/register">
+                    Create Account
+                </a>
+            </p>
+
+            <a href="/">
+                ← Back to Sign In
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+
+</html>

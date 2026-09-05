@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Contact | Community Health Analysis</title>
+
+    <style>
+
+        /* =========================
+           GENERAL
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #eef4f7;
+            color: #111827;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        header {
+            background: #0d172b;
+            color: white;
+            padding: 18px 25px;
+
+            box-shadow:
+                0 4px 12px rgba(15, 23, 42, 0.15);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #19c3b1;
+        }
+
+
+        /* =========================
+           PAGE TITLE
+        ========================= */
+
+        .page-header {
+            background: #eef4f7;
+
+            text-align: center;
+
+            padding: 50px 20px 35px;
+        }
+
+        .page-header h1 {
+            color: #0d172b;
+
+            font-size: 42px;
+
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            max-width: 750px;
+
+            margin: auto;
+
+            font-size: 18px;
+
+            line-height: 1.7;
+
+            color: #475569;
+        }
+
+
+        /* =========================
+           CONTACT SECTION
+        ========================= */
+
+        .contact-container {
+            width: 90%;
+
+            max-width: 1200px;
+
+            margin: 40px auto 70px;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1.4fr;
+
+            gap: 30px;
+        }
+
+
+        /* =========================
+           PROJECT INFORMATION
+        ========================= */
+
+        .project-info {
+            background:
+                linear-gradient(
+                    135deg,
+                    #0d172b,
+                    #116b6b
+                );
+
+            color: white;
+
+            border-radius: 12px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 8px 20px rgba(15, 23, 42, 0.15);
+        }
+
+        .project-info h2 {
+            font-size: 28px;
+
+            margin-bottom: 20px;
+        }
+
+        .project-info > p {
+            line-height: 1.7;
+
+            margin-bottom: 30px;
+
+            color: #d8f3f1;
+        }
+
+        .info-item {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 15px;
+
+            margin-bottom: 22px;
+        }
+
+        .info-icon {
+            font-size: 24px;
+
+            min-width: 30px;
+        }
+
+        .info-item h3 {
+            font-size: 17px;
+
+            margin-bottom: 5px;
+        }
+
+        .info-item p {
+            color: #d8f3f1;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           SUCCESS MESSAGE
+        ========================= */
+
+        .success-message {
+            width: 90%;
+
+            max-width: 1200px;
+
+            margin: 25px auto 0;
+
+            background: #d9f7f3;
+
+            color: #08756d;
+
+            border: 1px solid #8bd9d0;
+
+            border-left: 5px solid #16b8aa;
+
+            padding: 15px 20px;
+
+            border-radius: 8px;
+
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .contact-form {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 35px;
+
+            border: 1px solid #dce5ea;
+
+            border-left: 5px solid #148f86;
+
+            box-shadow:
+                0 8px 20px rgba(15, 23, 42, 0.08);
+        }
+
+        .contact-form h2 {
+            color: #0d172b;
+
+            font-size: 30px;
+
+            margin-bottom: 25px;
+
+            border-left: 5px solid #16b8aa;
+
+            padding-left: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+
+            color: #111827;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+
+            padding: 13px 15px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+
+            outline: none;
+
+            transition: 0.3s;
+
+            background: white;
+        }
+
+        .form-group input {
+            height: 48px;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #16b8aa;
+
+            box-shadow:
+                0 0 0 3px rgba(22, 184, 170, 0.12);
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .send-btn {
+            background: #16b8aa;
+
+            color: white;
+
+            border: none;
+
+            padding: 14px 30px;
+
+            border-radius: 7px;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .send-btn:hover {
+            background: #0d8f85;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 5px 12px rgba(20, 143, 134, 0.20);
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #0d172b;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+        }
+
+        footer p {
+            margin: 5px;
+
+            color: #d5e5e8;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            nav {
+                flex-direction: column;
+
+                gap: 20px;
+            }
+
+            nav ul {
+                gap: 15px;
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 34px;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .logo {
+                font-size: 22px;
+            }
+
+            nav ul li a {
+                font-size: 15px;
+            }
+
+            .contact-form,
+            .project-info {
+                padding: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<header>
+
+    <nav>
+
+        <div class="logo">
+            Community Health Analysis
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="/">Home</a>
+            </li>
+
+            <li>
+                <a href="/dashboard">Dashboard</a>
+            </li>
+
+            <li>
+                <a href="/prediction">Risk Prediction</a>
+            </li>
+
+            <li>
+                <a href="/about">About</a>
+            </li>
+
+            <li>
+                <a href="/contact">Contact</a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+
+
+<!-- =========================
+     PAGE HEADER
+========================= -->
+
+<section class="page-header">
+
+    <h1>Contact Us</h1>
+
+    <p>
+        Have feedback, questions, or suggestions about the
+        Community Health Analysis platform? Send us a message
+        using the form below.
+    </p>
+
+</section>
+
+
+
+<!-- =========================
+     SUCCESS MESSAGE
+========================= -->
+
+{% if success %}
+
+<div class="success-message">
+    {{ success }}
+</div>
+
+{% endif %}
+
+
+
+<!-- =========================
+     CONTACT CONTENT
+========================= -->
+
+<div class="contact-container">
+
+
+    <!-- =========================
+         PROJECT INFORMATION
+    ========================= -->
+
+    <div class="project-info">
+
+        <h2>
+            Community Health Analysis
+        </h2>
+
+        <p>
+            A community-level health analysis platform
+            designed to study COVID-19 and post-pandemic
+            health conditions.
+        </p>
+
+        <div class="info-item">
+
+            <div class="info-icon">
+                
+            </div>
+
+            <div>
+
+                <h3>
+                    Health Data Analysis
+                </h3>
+
+                <p>
+                    Analyze community health information
+                    and identify important trends.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-item">
+
+            <div class="info-icon">
+                
+            </div>
+
+            <div>
+
+                <h3>
+                    Risk Analysis
+                </h3>
+
+                <p>
+                    Identify communities that may require
+                    additional attention.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="info-item">
+
+            <div class="info-icon">
+                
+            </div>
+
+            <div>
+
+                <h3>
+                    Future Preparedness
+                </h3>
+
+                <p>
+                    Support early warning and preparedness
+                    for possible future outbreaks.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         CONTACT FORM
+    ========================= -->
+
+    <div class="contact-form">
+
+        <h2>
+            Send Your Feedback
+        </h2>
+
+
+        <form action="/contact"
+              method="POST">
+
+
+            <div class="form-group">
+
+                <label for="name">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your name"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email address"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="subject">
+                    Subject
+                </label>
+
+                <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    placeholder="Enter message subject"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="message">
+                    Message
+                </label>
+
+                <textarea
+                    id="message"
+                    name="message"
+                    placeholder="Write your feedback or message here..."
+                    required></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="send-btn">
+
+                Send Message
+
+            </button>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        © 2026 Community Health Analysis
+    </p>
+
+    <p>
+        COVID-19 &amp; Post-Pandemic Health Impact Analysis
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

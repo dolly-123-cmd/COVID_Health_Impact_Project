@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Community Risk Prediction</title>
+
+    <style>
+
+        /* =========================
+           GENERAL
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+
+            /* Navy + Teal Theme */
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: #0f172a;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+
+            box-shadow:
+                0 4px 15px rgba(15, 23, 42, 0.18);
+        }
+
+        header h1 {
+            margin: 0;
+
+            font-size: 32px;
+
+            color: #ffffff;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+            width: 90%;
+
+            max-width: 900px;
+
+            margin: 40px auto;
+        }
+
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+            background: #ffffff;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 6px 20px rgba(15, 23, 42, 0.10);
+
+            border-top:
+                4px solid #0f766e;
+        }
+
+
+        /* =========================
+           HEADING
+        ========================= */
+
+        h2 {
+            color: #0f766e;
+
+            margin-top: 0;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+
+        label {
+            display: block;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+
+            color: #0f172a;
+        }
+
+
+        input,
+        select {
+            width: 100%;
+
+            padding: 12px;
+
+            border:
+                1px solid #cbd5e1;
+
+            border-radius: 6px;
+
+            font-size: 16px;
+
+            background: #ffffff;
+
+            color: #0f172a;
+
+            transition: 0.3s;
+        }
+
+
+        input:focus,
+        select:focus {
+            outline: none;
+
+            border-color: #14b8a6;
+
+            box-shadow:
+                0 0 0 3px rgba(20, 184, 166, 0.12);
+        }
+
+
+        /* =========================
+           PREDICT BUTTON
+        ========================= */
+
+        button {
+            width: 100%;
+
+            padding: 14px;
+
+            background: #14b8a6;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 6px;
+
+            font-size: 18px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+
+        button:hover {
+            background: #0f766e;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 6px 15px rgba(15, 118, 110, 0.20);
+        }
+
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        .result {
+            margin-top: 30px;
+
+            padding: 25px;
+
+            background: #ccfbf1;
+
+            border-left:
+                6px solid #0f766e;
+
+            border-radius: 8px;
+
+            box-shadow:
+                0 4px 12px rgba(15, 118, 110, 0.08);
+        }
+
+
+        .result h3 {
+            color: #0f766e;
+
+            margin-top: 0;
+        }
+
+
+        .result p {
+            font-size: 18px;
+
+            line-height: 1.6;
+
+            color: #334155;
+        }
+
+
+        .result strong {
+            color: #0f172a;
+        }
+
+
+        /* =========================
+           BACK BUTTONS
+        ========================= */
+
+        .back {
+            display: inline-block;
+
+            margin-top: 25px;
+
+            margin-right: 10px;
+
+            text-decoration: none;
+
+            background: #0f172a;
+
+            color: white;
+
+            padding: 12px 20px;
+
+            border-radius: 6px;
+
+            transition: 0.3s;
+        }
+
+
+        .back:hover {
+            background: #0f766e;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: 94%;
+
+                margin: 25px auto;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            .back {
+                margin-right: 5px;
+
+                padding: 10px 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>
+        Community Health Risk Prediction
+    </h1>
+
+</header>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>
+            Predict Community Health Risk
+        </h2>
+
+        <p>
+            Enter the community health information below
+            to calculate the estimated community risk level.
+        </p>
+
+
+        <!-- IMPORTANT: ALL INPUTS ARE INSIDE FORM -->
+
+        <form method="POST" action="/prediction">
+
+            <div class="form-group">
+
+                <label>
+                    Total COVID Cases
+                </label>
+
+                <input
+                    type="number"
+                    name="total_cases"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Recovered Cases
+                </label>
+
+                <input
+                    type="number"
+                    name="recovered_cases"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Mental Health Impact (0-100)
+                </label>
+
+                <input
+                    type="number"
+                    name="mental_health"
+                    required
+                >
+
+            </div>
+
+
+            <button type="submit">
+                Predict Risk
+            </button>
+
+        </form>
+
+
+        <!-- ============================= -->
+        <!-- PREDICTION RESULT -->
+        <!-- ============================= -->
+         <div class="ai-result">
+
+    <h2>AI Health Risk Prediction</h2>
+
+    {% if ai_prediction %}
+
+        <p>
+            <strong>AI Prediction:</strong>
+            {{ ai_prediction }}
+        </p>
+
+        <p>
+            <strong>AI Confidence:</strong>
+            {{ ai_confidence }}%
+        </p>
+
+        <p>
+            <strong>Model Accuracy:</strong>
+            {{ model_accuracy }}%
+        </p>
+
+    {% endif %}
+
+</div>
+
+        {% if prediction %}
+
+        <div class="result">
+
+            <h3>
+                Prediction Result
+            </h3>
+
+            <p>
+
+                <strong>
+                    Predicted Risk Level:
+                </strong>
+
+                {{ prediction }}
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Risk Score:
+                </strong>
+
+                {{ risk_score }} / 100
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Recovery Rate:
+                </strong>
+
+                {{ recovery_rate }}%
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Recommendation:
+                </strong>
+
+                {{ recommendation }}
+
+            </p>
+
+
+        </div>
+
+        {% endif %}
+
+
+        <a href="/dashboard" class="back">
+            ← Back to Dashboard
+        </a>
+
+
+        <a href="/" class="back">
+            ← Home
+        </a>
+
+
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

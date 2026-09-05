@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Panel | Community Health Analysis</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #172033;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: #0d172b;
+            color: white;
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+
+        .header-btn {
+            text-decoration: none;
+            color: white;
+            background: #14b8a6;
+            padding: 10px 18px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .header-btn:hover {
+            background: #0f9f91;
+        }
+
+        .logout {
+            background: #e11d48;
+        }
+
+        .logout:hover {
+            background: #be123c;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: 40px auto;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 36px;
+            color: #0d172b;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           STAT CARDS
+        ========================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 25px;
+
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 8px 25px rgba(15,23,42,0.08);
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .stat-icon {
+            width: 65px;
+            height: 65px;
+
+            border-radius: 14px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 30px;
+
+            background: #ccfbf1;
+        }
+
+        .message-icon {
+            background: #dbeafe;
+        }
+
+        .stat-card h2 {
+            font-size: 30px;
+            color: #0d172b;
+        }
+
+        .stat-card p {
+            color: #64748b;
+            margin-top: 5px;
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 14px;
+
+            margin-bottom: 30px;
+
+            box-shadow:
+                0 8px 25px rgba(15,23,42,0.08);
+
+            overflow-x: auto;
+        }
+
+        .section h2 {
+            color: #0d172b;
+            margin-bottom: 20px;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 700px;
+        }
+
+        th {
+            background: #0d172b;
+            color: white;
+
+            padding: 14px;
+
+            text-align: left;
+
+            font-size: 15px;
+        }
+
+        td {
+            padding: 13px 14px;
+
+            border-bottom:
+                1px solid #e2e8f0;
+
+            color: #334155;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+
+        /* =========================
+           EMPTY MESSAGE
+        ========================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 30px;
+
+            color: #64748b;
+
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #0d172b;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+
+            margin-top: 50px;
+        }
+
+        footer p {
+            margin: 5px;
+            color: #cbd5e1;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 18px 20px;
+            }
+
+            .header-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .page-title h1 {
+                font-size: 30px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="logo">
+        Community Health Analysis
+    </div>
+
+    <div class="header-right">
+
+        <a href="/index"
+           class="header-btn">
+             Home
+        </a>
+
+        <a href="/admin"
+           class="header-btn">
+             Refresh
+        </a>
+
+        <a href="/logout"
+           class="header-btn logout">
+             Sign Out
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="container">
+
+
+    <!-- PAGE TITLE -->
+
+    <div class="page-title">
+
+        <h1>
+             Admin Panel
+        </h1>
+
+        <p>
+            Manage registered users and review contact messages.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         STATISTICS
+    ========================= -->
+
+    <div class="stats">
+
+
+        <!-- REGISTERED USERS -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                👥
+            </div>
+
+            <div>
+
+                <h2>
+                    {{ total_users }}
+                </h2>
+
+                <p>
+                    Total Registered Users
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTACT MESSAGES -->
+
+        <div class="stat-card">
+
+            <div class="stat-icon message-icon">
+                📩
+            </div>
+
+            <div>
+
+                <h2>
+                    {{ messages|length }}
+                </h2>
+
+                <p>
+                    Total Contact Messages
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         REGISTERED USERS
+    ========================= -->
+
+    <div class="section">
+
+        <h2>
+             Registered Users
+        </h2>
+
+
+        {% if users %}
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        ID
+                    </th>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <th>
+                        Username
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for user in users %}
+
+                <tr>
+
+                    <td>
+                        {{ user.id }}
+                    </td>
+
+                    <td>
+                        {{ user.name }}
+                    </td>
+
+                    <td>
+                        {{ user.email }}
+                    </td>
+
+                    <td>
+                        {{ user.username }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="empty">
+
+            No registered users found.
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =========================
+         CONTACT MESSAGES
+    ========================= -->
+
+    <div class="section">
+
+        <h2>
+             Contact Messages
+        </h2>
+
+
+        {% if messages %}
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <th>
+                        Subject
+                    </th>
+
+                    <th>
+                        Message
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for message in messages %}
+
+                <tr>
+
+                    <td>
+                        {{ message.Name }}
+                    </td>
+
+                    <td>
+                        {{ message.Email }}
+                    </td>
+
+                    <td>
+                        {{ message.Subject }}
+                    </td>
+
+                    <td>
+                        {{ message.Message }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="empty">
+
+            No contact messages found.
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        © 2026 Community Health Analysis
+    </p>
+
+    <p>
+        COVID-19 &amp; Post-Pandemic Health Impact Analysis
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
